@@ -8,6 +8,7 @@ struct Node
   struct Node *left;
   struct Node *right;
 };
+struct Node *root = NULL;
 
 void inorder(struct Node *root)
 {
@@ -134,11 +135,85 @@ void binaryTreeToBST(struct Node *root)
   free(arr);
 }
 
-// TODO : delete, balance into Balanced B Tree
+int smallestElement(struct Node *temp)
+{
+  if (root == NULL)
+  {
+    printf("Tree is empty\n");
+    return 0;
+  }
+  else
+  {
+    int leftMin, rightMin;
+    int min = temp->item;
+
+    if (temp->left != NULL)
+    {
+      leftMin = smallestElement(temp->left);
+      min = (min > leftMin) ? leftMin : min;
+    }
+
+    if (temp->right != NULL)
+    {
+      rightMin = smallestElement(temp->right);
+      min = (min > rightMin) ? rightMin : min;
+    }
+    return min;
+  }
+}
+struct Node *sortedArrayToBST(int arr[], int start, int end)
+{
+  if (start > end)
+    return NULL;
+
+  int mid = (start + end) / 2;
+  struct Node *root = initNode(arr[mid]);
+
+  root->left = sortedArrayToBST(arr, start, mid - 1);
+
+  root->right = sortedArrayToBST(arr, mid + 1, end);
+
+  return root;
+}
+struct Node *Delete(struct Node *node, int item)
+{
+  struct Node *temp;
+  if (node == NULL)
+  {
+    printf("Element Not Found");
+  }
+  else if (item < node->item)
+  {
+    node->left = Delete(node->left, item);
+  }
+  else if (item > node->item)
+  {
+    node->right = Delete(node->right, item);
+  }
+  else
+  {
+    if (node->right && node->left)
+    {
+      temp = smallestElement(node->right);
+      node->item = temp->item;
+
+      node->right = Delete(node->right, temp->item);
+    }
+    else
+    {
+      temp = node;
+      if (node->left == NULL)
+        node = node->right;
+      else if (node->right == NULL)
+        node = node->left;
+      free(temp);
+    }
+  }
+  return node;
+}
 
 int main()
 {
-  struct Node *root = NULL;
   int n;
 
   while (n)
@@ -150,6 +225,7 @@ int main()
     printf("4 - display preorder\n");
     printf("5 - search for element\n");
     printf("6 - transform in bst\n");
+    printf("7 - delete item\n");
     printf("0 - exit\n");
 
     scanf("%d", &n);
@@ -199,6 +275,25 @@ int main()
     {
       binaryTreeToBST(root);
     };
+    break;
+    case 7:
+    {
+      int item;
+      printf("node to delete:");
+      scanf("%d", &item);
+
+      Delete(root, item);
+    };
+    break;
+    case 8:
+    {
+      int *arr = (int *)malloc(n * sizeof(int));
+      int i = 0;
+      int n = countNodes(root);
+      storeInorder(root, arr, &i);
+      sortedArrayToBST(arr, 0, n - 1);
+    };
+    break;
     case 9:
     {
       char line[150], tempLine[20], saveLine[150];
