@@ -219,13 +219,15 @@ int main()
   while (n)
   {
     printf("\n1 - insert in binary tree\n");
-    printf("9 - read from file \n");
     printf("2 - display inorder\n");
     printf("3 - display postorder\n");
     printf("4 - display preorder\n");
     printf("5 - search for element\n");
     printf("6 - transform in bst\n");
     printf("7 - delete item\n");
+    printf("8 - transform to balanced bst\n");
+    printf("9 - read from file \n");
+    printf("10 - save to file \n");
     printf("0 - exit\n");
 
     scanf("%d", &n);
@@ -373,7 +375,23 @@ int main()
           break;
         }
       }
-    }
+    };
+    break;
+    case 10:
+    {
+      FILE *file = fopen("output.txt", "w");
+
+      int *arr = (int *)malloc(n * sizeof(int));
+      int i = 0;
+      int n = countNodes(root);
+      storeInorder(root, arr, &i);
+      for (int i = 0; i < n; i++)
+      {
+        printf("%d", arr[i]);
+        fprintf(file, "%d ", arr[i]);
+      }
+      fclose(file);
+    };
     break;
     default:
       break;
