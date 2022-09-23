@@ -1,4 +1,5 @@
 .vscode
+.idea
 btree.dSYM
 output
 btree
