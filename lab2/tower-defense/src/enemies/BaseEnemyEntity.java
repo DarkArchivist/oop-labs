@@ -1,6 +1,6 @@
 package enemies;
 
-import types.DamageType;
+import mechanics.DamageType;
 
 import java.util.Timer;
 import java.util.TimerTask;
