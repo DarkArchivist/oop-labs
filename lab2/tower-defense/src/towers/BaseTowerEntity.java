@@ -1,5 +1,8 @@
 package towers;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public abstract class BaseTowerEntity {
 
     private static String name;
@@ -11,6 +14,8 @@ public abstract class BaseTowerEntity {
 
     private static int xUnits; // the space it takes
     private static int yUnits;
+
+    Timer timer = new Timer();
 
     public BaseTowerEntity(
             String name,
@@ -28,6 +33,15 @@ public abstract class BaseTowerEntity {
         BaseTowerEntity.resourcesCost = resourcesCost;
         BaseTowerEntity.xUnits = xUnits;
         BaseTowerEntity.yUnits = yUnits;
+    }
+
+    static TimerTask wrap(Runnable r) {
+        return new TimerTask() {
+            @Override
+            public void run() {
+                r.run();
+            }
+        };
     }
     // TODO : Double check tower props and restructure if needed be.
 }
