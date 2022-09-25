@@ -32,8 +32,8 @@ public class Player {
         maxResources = STARTING_MAX_RESOURCES;
     }
 
-    public void addGold() {
-        gold++;
+    public void addGold(int reward) {
+        gold += reward;
     }
 
     public void removeLife(int damage) {
