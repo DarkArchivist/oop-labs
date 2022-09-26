@@ -22,6 +22,7 @@ public class RootTowerEntity extends BaseTowerEntity {
         if (!isRootAvailable) {
             return;
         }
+        // TODO Damage logic smth along the lines: enemy.health -= dps * rootDuration
         isRootAvailable = false;
         this.timer.schedule(wrap(() -> isRootAvailable = true), rootCooldown); // TODO DPS logic
     }

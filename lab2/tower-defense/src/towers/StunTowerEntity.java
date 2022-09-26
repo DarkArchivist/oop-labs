@@ -24,4 +24,25 @@ public class StunTowerEntity extends BaseTowerEntity {
         isStunAvailable = false;
         this.timer.schedule(wrap(() -> isStunAvailable = true), stunCooldown); // TODO Damage overtime
     }
+
+    // GETTERS
+    public long getStunDuration() {
+        return stunDuration;
+    }
+
+    public long getStunCooldown() {
+        return stunCooldown;
+    }
+
+    public boolean isStunAvailable() {
+        return isStunAvailable;
+    }
+
+    public long getDamage() {
+        return damage;
+    }
+
+    public DamageType getDamageType() {
+        return damageType;
+    }
 }

@@ -16,4 +16,14 @@ public class SupportTowerEntity extends BaseTowerEntity {
     public void generateUtils() {
         this.timer.schedule(wrap(() -> totalUtils += utilsPerMinute), 60 * 1000);
     }
+
+    // GETTERS
+    public static int getTotalUtils() {
+        return totalUtils;
+    }
+
+    public static int getUtilsPerMinute() {
+        return utilsPerMinute;
+    }
+
 }

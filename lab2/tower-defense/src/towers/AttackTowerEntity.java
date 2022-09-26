@@ -27,4 +27,28 @@ public class AttackTowerEntity extends BaseTowerEntity {
         this.timer.schedule(wrap(() -> attackOnCooldown = false), T);
     }
     // TODO : Add behaviour ( for eg. passive abilities, auto-casted spells probably)
+
+    public static DamageType getDamageType() {
+        return damageType;
+    }
+
+    public static double getDamage() {
+        return damage;
+    }
+
+    public static double getAttackSpeed() {
+        return attackSpeed;
+    }
+
+    public static double getAttackTime() {
+        return attackTime;
+    }
+
+    public static double getAttackRadius() {
+        return attackRadius;
+    }
+
+    public boolean isAttackOnCooldown() {
+        return attackOnCooldown;
+    }
 }

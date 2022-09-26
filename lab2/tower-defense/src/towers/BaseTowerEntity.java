@@ -43,5 +43,34 @@ public abstract class BaseTowerEntity {
             }
         };
     }
+
+    public static String getName() {
+        return name;
+    }
+
+    public static String getDescription() {
+        return description;
+    }
+
+    public static int getGoldCost() {
+        return goldCost;
+    }
+
+    public static int getLumberCost() {
+        return lumberCost;
+    }
+
+    public static int getResourcesCost() {
+        return resourcesCost;
+    }
+
+    public static int getxUnits() {
+        return xUnits;
+    }
+
+    public static int getyUnits() {
+        return yUnits;
+    }
+
     // TODO : Double check tower props and restructure if needed be.
 }

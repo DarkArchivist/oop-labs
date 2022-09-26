@@ -9,7 +9,7 @@ public class BaseNeutralEntity extends BaseEnemyEntity {
                              int speedMultiplier
     ) {
         super("Boss", 1, 1000, 5000, 0, 0, 0, 0);
-        this.lumberPerHit = currentWave * 2 + 1;
+        lumberPerHit = currentWave * 2 + 1;
         this.freezeDuration = freezeDuration;
         this.freezeCooldown = freezeCooldown;
         this.speedUpDuration = speedUpDuration;
@@ -17,9 +17,9 @@ public class BaseNeutralEntity extends BaseEnemyEntity {
         this.speedMultiplier = speedMultiplier;
     }
 
-    private static final int goldPerHit = 20;
+    private static int goldPerHit = 20;
 
-    private int lumberPerHit;
+    private static int lumberPerHit;
 
     private final int freezeDuration;
     private boolean isFreezeAvailable = true;
@@ -55,4 +55,25 @@ public class BaseNeutralEntity extends BaseEnemyEntity {
         timer.schedule(wrap(() -> setSpeed(currentSpeed)), speedUpDuration);
 
     }
+
+    public int getGoldPerHit() {
+        return goldPerHit;
+    }
+
+    public int getLumberPerHit() {
+        return lumberPerHit;
+    }
+
+    public int getFreezeDuration() {
+        return freezeDuration;
+    }
+
+    public int getSpeedMultiplier() {
+        return speedMultiplier;
+    }
+
+    public int getSpeedUpDuration() {
+        return speedUpDuration;
+    }
+
 }

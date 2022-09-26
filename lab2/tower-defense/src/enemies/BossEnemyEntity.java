@@ -12,7 +12,7 @@ public class BossEnemyEntity extends BaseEnemyEntity {
     private static final int healCooldown = 60 * 1000; // seconds -> milliseconds
     private boolean isHealAvailable = true;
 
-    private static final double healthShield = 250; // applies dispel on use
+    private static final int healthShield = 250; // applies dispel on use
     private static final int healthShieldCooldown = 60 * 1000;
     private boolean isHealthShieldAvailable = true;
 
@@ -45,7 +45,26 @@ public class BossEnemyEntity extends BaseEnemyEntity {
             setRooted(false);
             setSlowed(false);
         }
+        setHealth(getHealth() - healthShield);
         this.isHealthShieldAvailable = false;
-        timer.schedule(wrap(() -> this.isHealthShieldAvailable = true), healthShieldCooldown);
+
+        timer.schedule(wrap(() -> {
+            if (getHealth() <= 2250) {
+                setHealth(getHealth() - healthShield);
+            }
+            this.isHealthShieldAvailable = true;
+        }), healthShieldCooldown);
+    }
+
+    public boolean isDispelAvailable() {
+        return isDispelAvailable;
+    }
+
+    public boolean isHealAvailable() {
+        return isHealAvailable;
+    }
+
+    public boolean isHealthShieldAvailable() {
+        return isHealthShieldAvailable;
     }
 }
