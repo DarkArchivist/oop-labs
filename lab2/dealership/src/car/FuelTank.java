@@ -1,7 +1,7 @@
 package car;
 
 public class FuelTank {
-    private double volume;
+    private final double volume;
     private double level;
 
     public FuelTank(double volume, double level) {

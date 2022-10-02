@@ -15,7 +15,7 @@ public class TestDrive {
 
     private Seller seller;
 
-    private Car car;
+    private final Car car;
 
     public TestDrive(Date date, double duration, Buyer buyer, Seller seller, Car car) {
         this.date = date;

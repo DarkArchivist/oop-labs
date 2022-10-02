@@ -27,9 +27,9 @@ public class Main {
         // dealership
         Dealership dealership = new Dealership("8", "9-5", 13, dealershipBankAccount, dealershipContacts, dealershipCars);
         // dealership admin
-        Administrator admin = new Administrator("Cornel", "Nastas", dealership);
+        Administrator admin = new Administrator("Cornel", "Nastas", 20, dealership);
         // seller
-        Seller seller = new Seller("Employee", "Seller", dealership);
+        Seller seller = new Seller("Employee", "Seller", 20, dealership);
 
         // customer
         BankAccount buyerBankAccount = new BankAccount("Customer", 10000, 100000, "maib", "Pushkin");

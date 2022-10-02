@@ -1,17 +1,15 @@
 package persons;
 
+import base.Person;
 import car.Car;
 import dealership.Dealership;
 
-public class Seller {
-    private final String firstName;
-    private final String lastName;
+public class Seller extends Person {
 
     private final Dealership dealership;
 
-    public Seller(String firstName, String lastName, Dealership dealership) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Seller(String firstName, String lastName, int age, Dealership dealership) {
+        super(firstName, lastName, age);
         this.dealership = dealership;
     }
 
@@ -23,11 +21,4 @@ public class Seller {
 
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
 }

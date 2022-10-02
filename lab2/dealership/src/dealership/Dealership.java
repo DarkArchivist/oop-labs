@@ -1,38 +1,24 @@
 package dealership;
 
 import bank.BankAccount;
+import base.Building;
 import car.Car;
 
 import java.util.List;
 
-public class Dealership {
+public class Dealership extends Building {
 
-    private String workingHours;
-    private String schedule;
-    private int breakHour;
-
-    public boolean isOpen = false;
     private final BankAccount bankAccount;
     private List<String> contact;
 
     private List<Car> cars;
 
     public Dealership(String workingHours, String schedule, int breakHour, BankAccount bankAccount, List<String> contact, List<Car> cars) {
-        this.workingHours = workingHours;
-        this.schedule = schedule;
-        this.breakHour = breakHour;
+        super(workingHours, schedule, breakHour);
 
         this.bankAccount = bankAccount;
         this.contact = contact;
         this.cars = cars;
-    }
-
-    public void open() {
-        this.isOpen = true;
-    }
-
-    public void close() {
-        this.isOpen = false;
     }
 
     public void addCar(Car car) {
@@ -41,30 +27,6 @@ public class Dealership {
 
     public void removeCar(Car car) {
         cars.remove(car);
-    }
-
-    public String getWorkingHours() {
-        return workingHours;
-    }
-
-    public void setWorkingHours(String workingHours) {
-        this.workingHours = workingHours;
-    }
-
-    public String getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(String schedule) {
-        this.schedule = schedule;
-    }
-
-    public int getBreakHour() {
-        return breakHour;
-    }
-
-    public void setBreakHour(int breakHour) {
-        this.breakHour = breakHour;
     }
 
     public BankAccount getBankAccount() {
@@ -80,7 +42,7 @@ public class Dealership {
     }
 
     private String getCars() {
-       StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append("[");
         for (Car car : cars) {
             sb.append(car.toString()).append(",\n");
@@ -103,7 +65,6 @@ public class Dealership {
                 ", isOpen=" + isOpen +
                 ", bankAccount=" + bankAccount +
                 ", contact=" + contact +
-                ",\n cars=" + getCars() +
-                '}';
+                ",\n cars=" + getCars() + '}';
     }
 }
