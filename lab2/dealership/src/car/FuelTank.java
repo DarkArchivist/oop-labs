@@ -1,6 +1,8 @@
 package car;
 
-public class FuelTank {
+import base.BaseEntity;
+
+public class FuelTank extends BaseEntity {
     private final double volume;
     private double level;
 

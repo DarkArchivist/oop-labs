@@ -4,17 +4,18 @@ import bank.BankAccount;
 import car.Car;
 import dealership.Dealership;
 
-public class Checkout {
+public class Checkout extends Order {
 
     private String shippingAddress;
     private BankAccount bankAccount;
 
-    public Checkout(String shippingAddress, BankAccount bankAccount) {
+    public Checkout(String shippingAddress, BankAccount bankAccount, Car car) {
+        super(car);
         this.shippingAddress = shippingAddress;
         this.bankAccount = bankAccount;
     }
 
-    public void buy(Car car, Dealership dealership) {
+    public void buy(Dealership dealership) {
         try {
             dealership.removeCar(car);
             this.bankAccount.transfer(dealership.getBankAccount(), car.getPrice());

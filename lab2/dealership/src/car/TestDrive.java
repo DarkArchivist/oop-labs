@@ -1,11 +1,12 @@
 package car;
 
+import base.BaseEntity;
 import persons.Buyer;
 import persons.Seller;
 
 import java.util.Date;
 
-public class TestDrive {
+public class TestDrive extends BaseEntity {
 
     private Date date;
 
