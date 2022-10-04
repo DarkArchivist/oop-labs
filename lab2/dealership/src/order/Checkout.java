@@ -1,27 +1,18 @@
 package order;
 
-import bank.BankAccount;
-import car.Car;
-import dealership.Dealership;
-
 public class Checkout {
 
     private String shippingAddress;
-    private BankAccount bankAccount;
+    private double amount;
+    private String car;
 
-    public Checkout(String shippingAddress, BankAccount bankAccount) {
+    public Checkout(String shippingAddress, double amount, String car) {
         this.shippingAddress = shippingAddress;
-        this.bankAccount = bankAccount;
+        this.amount = amount;
+        this.car = car;
     }
 
-    public void buy(Car car, Dealership dealership) {
-        try {
-            dealership.removeCar(car);
-            this.bankAccount.transfer(dealership.getBankAccount(), car.getPrice());
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
+
 
     public String getShippingAddress() {
         return shippingAddress;
@@ -31,11 +22,4 @@ public class Checkout {
         this.shippingAddress = shippingAddress;
     }
 
-    public BankAccount getBankAccount() {
-        return bankAccount;
-    }
-
-    public void setBankAccount(BankAccount bankAccount) {
-        this.bankAccount = bankAccount;
-    }
 }

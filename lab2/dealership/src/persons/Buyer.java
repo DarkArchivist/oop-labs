@@ -3,7 +3,6 @@ package persons;
 import bank.BankAccount;
 import car.Car;
 import car.TestDrive;
-import order.Order;
 
 import java.util.Date;
 
@@ -12,18 +11,21 @@ public class Buyer {
     private final String firstName;
     private final String lastName;
     private final int age;
-    private final BankAccount bankAccount;
-    private Order order;
 
-    public Buyer(String firstName, String lastName, int age, BankAccount bankAccount) {
+    private double money;
+
+    public Buyer(String firstName, String lastName, int age, double money) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
-        this.bankAccount = bankAccount;
+        this.money = money;
     }
 
-    public void testDrive(Car car, Seller seller, double duration, Date date) {
-        TestDrive testDrive = new TestDrive(date, duration, this, seller, car);
+    public void buy(String car, double amount) {
+        if (money < amount) {
+            throw new RuntimeException("not enough funds");
+        }
+        money -= amount;
     }
 
     public String getFirstName() {
@@ -38,11 +40,4 @@ public class Buyer {
         return age;
     }
 
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 }

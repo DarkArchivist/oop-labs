@@ -1,7 +1,5 @@
 package persons;
 
-import car.Car;
-import dealership.Dealership;
 
 
 public class Administrator {
@@ -9,29 +7,17 @@ public class Administrator {
     private final String firstName;
     private final String lastName;
 
-    private final Dealership dealership;
+    private final String dealership;
 
-    public Administrator(String firstName, String lastName, Dealership dealership) {
+    public Administrator(String firstName, String lastName, String dealership) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dealership = dealership;
     }
 
-    public void openDealership() {
-        this.dealership.open();
-    }
+    public void open() {}
 
-    public void closeDealership() {
-        this.dealership.close();
-    }
-
-    public void addCar(Car car) {
-        this.dealership.addCar(car);
-    }
-
-    public void removeCar(Car car) {
-        this.dealership.removeCar(car);
-    }
+    public void close() {}
 
     public String getFirstName() {
         return firstName;
@@ -41,7 +27,7 @@ public class Administrator {
         return lastName;
     }
 
-    public Dealership getDealership() {
+    public String getDealership() {
         return dealership;
     }
 }

@@ -7,13 +7,11 @@ public class Car {
     private double maxCarSpeed;
     private double price;
     private double odoMeter;
-    private FuelTank fuelTank;
 
-    public Car(String vin, double maxCarSpeed, double price, FuelTank fuelTank) {
+    public Car(String vin, double maxCarSpeed, double price) {
         this.vin = vin;
         this.maxCarSpeed = maxCarSpeed;
         this.price = price;
-        this.fuelTank = fuelTank;
     }
 
     public void start() {
@@ -68,23 +66,4 @@ public class Car {
         this.odoMeter = odoMeter;
     }
 
-    public FuelTank getFuelTank() {
-        return fuelTank;
-    }
-
-    public void setFuelTank(FuelTank fuelTank) {
-        this.fuelTank = fuelTank;
-    }
-
-    @Override
-    public String toString() {
-        return "Car{" +
-                "vin='" + vin + '\'' +
-                ", currentCarSpeed=" + currentCarSpeed +
-                ", maxCarSpeed=" + maxCarSpeed +
-                ", price=" + price +
-                ", odoMeter=" + odoMeter +
-                ", fuelTank=" + fuelTank +
-                '}';
-    }
 }

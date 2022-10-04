@@ -1,8 +1,5 @@
 package dealership;
 
-import bank.BankAccount;
-import car.Car;
-
 import java.util.List;
 
 public class Dealership {
@@ -12,17 +9,15 @@ public class Dealership {
     private int breakHour;
 
     public boolean isOpen = false;
-    private final BankAccount bankAccount;
     private List<String> contact;
 
-    private List<Car> cars;
+    private List<String> cars;
 
-    public Dealership(String workingHours, String schedule, int breakHour, BankAccount bankAccount, List<String> contact, List<Car> cars) {
+    public Dealership(String workingHours, String schedule, int breakHour, List<String> contact, List<String> cars) {
         this.workingHours = workingHours;
         this.schedule = schedule;
         this.breakHour = breakHour;
 
-        this.bankAccount = bankAccount;
         this.contact = contact;
         this.cars = cars;
     }
@@ -35,11 +30,15 @@ public class Dealership {
         this.isOpen = false;
     }
 
-    public void addCar(Car car) {
+    public void addCar(String car) {
         cars.add(car);
     }
 
-    public void removeCar(Car car) {
+    public void removeCar(String car) {
+        if (!cars.contains(car)) {
+            System.out.println("Car doesn't exist");
+            return;
+        }
         cars.remove(car);
     }
 
@@ -67,9 +66,6 @@ public class Dealership {
         this.breakHour = breakHour;
     }
 
-    public BankAccount getBankAccount() {
-        return bankAccount;
-    }
 
     public List<String> getContact() {
         return contact;
@@ -79,18 +75,18 @@ public class Dealership {
         this.contact = contact;
     }
 
-    private String getCars() {
-       StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        for (Car car : cars) {
-            sb.append(car.toString()).append(",\n");
-        }
+//    private String getCars() {
+//       StringBuilder sb = new StringBuilder();
+//        sb.append("[");
+//        for (Car car : cars) {
+//            sb.append(car.toString()).append(",\n");
+//        }
+//
+//        sb.append("]");
+//        return sb.toString();
+//    }
 
-        sb.append("]");
-        return sb.toString();
-    }
-
-    public void setCars(List<Car> cars) {
+    public void setCars(List<String> cars) {
         this.cars = cars;
     }
 
@@ -101,9 +97,9 @@ public class Dealership {
                 ", schedule='" + schedule + '\'' +
                 ", breakHour=" + breakHour +
                 ", isOpen=" + isOpen +
-                ", bankAccount=" + bankAccount +
                 ", contact=" + contact +
-                ",\n cars=" + getCars() +
+                ", cars=" + cars +
                 '}';
     }
 }
+
