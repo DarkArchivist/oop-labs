@@ -1,8 +1,8 @@
-package car;
+package dealership.car;
 
-import base.BaseEntity;
-import persons.Buyer;
-import persons.Seller;
+import common.base.BaseEntity;
+import dealership.employees.Buyer;
+import dealership.employees.Seller;
 
 import java.util.Date;
 

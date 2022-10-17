@@ -1,6 +1,6 @@
-package car;
+package dealership.car;
 
-import base.BaseEntity;
+import common.base.BaseEntity;
 
 public class FuelTank extends BaseEntity {
     private final double volume;

@@ -1,4 +1,4 @@
-package base;
+package common.base;
 
 import java.util.UUID;
 

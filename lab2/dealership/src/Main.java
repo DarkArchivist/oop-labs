@@ -1,10 +1,10 @@
-import bank.BankAccount;
-import car.Car;
-import car.FuelTank;
+import common.bank.BankAccount;
+import dealership.car.Car;
+import dealership.car.FuelTank;
 import dealership.Dealership;
-import persons.Administrator;
-import persons.Buyer;
-import persons.Seller;
+import dealership.employees.Administrator;
+import dealership.employees.Buyer;
+import dealership.employees.Seller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class Main {
         List<String> dealershipContacts = new ArrayList<>();
         dealershipContacts.add("078510000");
 
-        // mock car
+        // mock dealership.car
         FuelTank fuelTank = new FuelTank(100, 30);
         Car mockCar = new Car("WMWZP3C58FT708366", 160, 5000, fuelTank);
 
@@ -27,9 +27,9 @@ public class Main {
         // dealership
         Dealership dealership = new Dealership("8", "9-5", 13, dealershipBankAccount, dealershipContacts, dealershipCars);
         // dealership admin
-        Administrator admin = new Administrator("Cornel", "Nastas", 20, dealership);
+        Administrator admin = new Administrator("Cornel", "Nastas", 20, 20, dealership);
         // seller
-        Seller seller = new Seller("Employee", "Seller", 20, dealership);
+        Seller seller = new Seller("Employee", "Seller", 20, 15, dealership);
 
         // customer
         BankAccount buyerBankAccount = new BankAccount("Customer", 10000, 100000, "maib", "Pushkin");
@@ -55,7 +55,7 @@ public class Main {
                     System.out.print("Vin code:");
                     String vin = sc.next();
 
-                    System.out.print("Max car speed:");
+                    System.out.print("Max dealership.car speed:");
                     double maxCarSpeed = sc.nextDouble();
 
                     System.out.print("Price:");

@@ -1,6 +1,6 @@
-package base;
+package common.base;
 
-import car.FuelTank;
+import dealership.car.FuelTank;
 
 public abstract class Vehicle extends BaseEntity {
     protected final double maxSpeed;

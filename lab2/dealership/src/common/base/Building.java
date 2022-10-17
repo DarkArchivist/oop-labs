@@ -1,4 +1,4 @@
-package base;
+package common.base;
 
 public abstract class Building extends BaseEntity {
     protected String workingHours;

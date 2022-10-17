@@ -1,8 +1,9 @@
-package order;
+package common.order;
 
-import bank.BankAccount;
-import car.Car;
+import common.bank.BankAccount;
+import dealership.car.Car;
 import dealership.Dealership;
+import dealership.car.CarStatus;
 
 public class Checkout extends Order {
 
@@ -17,6 +18,7 @@ public class Checkout extends Order {
 
     public void buy(Dealership dealership) {
         try {
+            car.status = CarStatus.SOLD;
             dealership.removeCar(car);
             this.bankAccount.transfer(dealership.getBankAccount(), car.getPrice());
         } catch (Exception e) {

@@ -1,9 +1,10 @@
-package car;
+package dealership.car;
 
-import base.Vehicle;
+import common.base.Vehicle;
 
 public class Car extends Vehicle {
     private final String vin;
+    public CarStatus status;
 
     public Car(String vin, double maxCarSpeed, double price, FuelTank fuelTank) {
         super(maxCarSpeed, price, fuelTank);
@@ -18,10 +19,8 @@ public class Car extends Vehicle {
     public String toString() {
         return "Car{" +
                 "vin='" + vin + '\'' +
-                ", currentCarSpeed=" + currentSpeed +
-                ", maxCarSpeed=" + maxSpeed +
+                ", status=" + status +
                 ", price=" + price +
-                ", odoMeter=" + odoMeter +
                 ", fuelTank=" + fuelTank +
                 '}';
     }

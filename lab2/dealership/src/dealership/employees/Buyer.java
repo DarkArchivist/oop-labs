@@ -1,10 +1,10 @@
-package persons;
+package dealership.employees;
 
-import bank.BankAccount;
-import base.Person;
-import car.Car;
-import car.TestDrive;
-import order.Order;
+import common.bank.BankAccount;
+import dealership.car.Car;
+import dealership.car.TestDrive;
+import common.order.Order;
+import common.base.Person;
 
 import java.util.Date;
 
@@ -29,5 +29,16 @@ public class Buyer extends Person {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    @Override
+    public String toString() {
+        return "Buyer{" +
+                "bankAccount=" + bankAccount +
+                ", order=" + order +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                '}';
     }
 }

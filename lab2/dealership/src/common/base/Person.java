@@ -1,4 +1,4 @@
-package base;
+package common.base;
 
 public abstract class Person extends BaseEntity {
     protected final String firstName;

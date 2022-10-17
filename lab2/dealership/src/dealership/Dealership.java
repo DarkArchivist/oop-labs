@@ -1,8 +1,8 @@
 package dealership;
 
-import bank.BankAccount;
-import base.Building;
-import car.Car;
+import common.bank.BankAccount;
+import common.base.Building;
+import dealership.car.Car;
 
 import java.util.List;
 
