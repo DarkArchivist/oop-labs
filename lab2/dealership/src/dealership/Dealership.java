@@ -5,6 +5,8 @@ import common.base.Building;
 import dealership.car.Car;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 public class Dealership extends Building {
 
@@ -19,6 +21,14 @@ public class Dealership extends Building {
         this.bankAccount = bankAccount;
         this.contact = contact;
         this.cars = cars;
+    }
+
+    public Optional<Car> findCar(String vin) {
+        return cars
+                .stream()
+                .parallel()
+                .filter(car -> Objects.equals(car.getVin(), vin))
+                .findFirst();
     }
 
     public void addCar(Car car) {

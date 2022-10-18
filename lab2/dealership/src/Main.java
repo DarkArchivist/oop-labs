@@ -68,6 +68,12 @@ public class Main {
                     Car car1 = new Car(vin, maxCarSpeed, price, fuelTank1);
                     admin.addCar(car1);
                 }
+                case 3 -> {
+                    System.out.print("Vin code:");
+                    String vin = sc.next();
+
+                    admin.removeCar(vin);
+                }
                 default -> flag = false;
             }
         }
