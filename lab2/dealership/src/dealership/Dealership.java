@@ -51,11 +51,17 @@ public class Dealership extends Building {
         this.contact = contact;
     }
 
-    private String getCars() {
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public String getCarsList() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         for (Car car : cars) {
-            sb.append(car.toString()).append(",\n");
+            sb.append(cars.indexOf(car) + 1)
+                    .append(" - ")
+                    .append(car.toString()).append(",\n");
         }
 
         sb.append("]");
@@ -75,6 +81,6 @@ public class Dealership extends Building {
                 ", isOpen=" + isOpen +
                 ", bankAccount=" + bankAccount +
                 ", contact=" + contact +
-                ",\n cars=" + getCars() + '}';
+                ",\n cars=" + getCarsList() + '}';
     }
 }

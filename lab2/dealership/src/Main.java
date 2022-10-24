@@ -1,18 +1,41 @@
+import autoservice.Autoservice;
+import autoservice.employees.Dispatcher;
+import autoservice.employees.Mechanic;
 import common.bank.BankAccount;
+import common.employee.Review;
 import dealership.car.Car;
+import dealership.car.CarStatus;
 import dealership.car.FuelTank;
 import dealership.Dealership;
+import dealership.car.TestDrive;
 import dealership.employees.Administrator;
 import dealership.employees.Buyer;
 import dealership.employees.Seller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
+    public static Timer timer = new Timer();
+
+    static TimerTask wrap(Runnable r) {
+        return new TimerTask() {
+            @Override
+            public void run() {
+                r.run();
+            }
+        };
+    }
+
     public static void main(String[] args) {
-        BankAccount dealershipBankAccount = new BankAccount("dealership", 0, 100000, "maib", "Pushkin");
+        BankAccount autoserviceAccount = new BankAccount("autoservice", 0, 100000, "maib", "Pushkin");
+
+        Mechanic mechanic = new Mechanic("firstName", "lastName", 23, 10.5);
+        Dispatcher dispatcher = new Dispatcher("firstName", "lastName", 20, 10);
+        Autoservice autoservice = new Autoservice("8", "9-5", 13, autoserviceAccount);
+        autoservice.hireEmployee(dispatcher);
+        autoservice.hireEmployee(mechanic);
+
+        BankAccount dealershipBankAccount = new BankAccount("dealership", 10000, 100000, "maib", "Pushkin");
         List<String> dealershipContacts = new ArrayList<>();
         dealershipContacts.add("078510000");
 
@@ -41,41 +64,128 @@ public class Main {
 
 
         while (flag) {
-            System.out.println("1 - Dealership info");
-            System.out.println("2 - Add vehicle");
-            System.out.println("3 - Remove vehicle");
+            System.out.println("1 - Customer tries to buy a car");
 
             int option = sc.nextInt();
 
             switch (option) {
                 case 1 -> {
+                    String description = "";
+                    double stars;
+                    Random rand = new Random();
+
                     System.out.println(dealership);
+
+                    Car testCar = dealership.getCars().get(0);
+                    TestDrive testDrive = buyer.testDrive(testCar, seller, 10, new Date());
+
+                    timer.schedule(wrap(() -> buyer.finishTestDrive(testDrive)), 10);
+
+                    int unluckyEvent = rand.nextInt(10);
+                    if (unluckyEvent == 1) {
+                        System.out.println("Car needs service, broke down during test drive!");
+                        testCar.setStatus(CarStatus.SERVICE);
+
+                        dispatcher.assignCar(testCar, mechanic);
+
+                        int price = rand.nextInt(1000, 5000);
+                        mechanic.repairCar(10);
+                        if (price > 1000 && price < 2000) {
+                            System.out.println("Good mechanic !");
+                            dealership.getBankAccount().transfer(autoservice.getBankAccount(), price);
+                        } else if (price > 2000 && price < 3000) {
+                            System.out.println("Cheeky mechanic ?!");
+                            dealership.getBankAccount().transfer(autoservice.getBankAccount(), price);
+                        } else {
+                            System.out.println("(Dealership) How come ? Are you out of your mind ?");
+                            System.out.println("(Mechanic) Lets see again.");
+                            int newPrice = rand.nextInt(1000, 3000);
+                            if (newPrice > 1000 && newPrice < 2000) {
+                                System.out.println("Good mechanic !");
+                                dealership.getBankAccount().transfer(autoservice.getBankAccount(), price);
+                            } else if (newPrice > 2000 && newPrice < 3000) {
+                                System.out.println("Cheeky mechanic ?!");
+                                dealership.getBankAccount().transfer(autoservice.getBankAccount(), price);
+                            }
+                        }
+
+                        description = "He gave me a car with a defect, what could happen in the worst case scenario ???";
+                        stars = 1;
+                        seller.receiveReview(new Review(description, stars));
+                        break;
+                    }
+
+                    int satisfaction = rand.nextInt(10);
+                    if (satisfaction > 0 && satisfaction < 5) {
+                        switch (rand.nextInt(4)) {
+                            case 1 -> {
+                                description = "Terrible person";
+                                stars = 1;
+                            }
+                            case 2 -> {
+                                description = "Doesn't know what he is supposed to do";
+                                stars = 2;
+                            }
+                            case 3 -> {
+                                description = "He didn't adhere to my specifications";
+                                stars = 3;
+                            }
+                            default -> {
+                                description = "I'd rather not talk";
+                                stars = 0;
+                            }
+                        }
+
+                        Review review = new Review(description, stars);
+                        seller.receiveReview(review);
+                        break;
+                    }
+                    switch (rand.nextInt(4, 10)) {
+                        case 5 -> {
+                            description = "Could use some lessons.";
+                            stars = 5;
+                        }
+                        case 6 -> {
+                            description = "I wish he'd listen more.";
+                            stars = 6;
+                        }
+                        case 7 -> {
+                            description = "Made me wait a whole lot before actually talking business.";
+                            stars = 7;
+                        }
+                        case 8 -> {
+                            description = "Overall pleasant experience.";
+                            stars = 8;
+                        }
+                        case 9 -> {
+                            description = "Nice suggestions, could be a bit more understanding.";
+                            stars = 9;
+                        }
+                        default -> {
+                            description = "Excellent experience, pleasure to work with such persons.";
+                            stars = 10;
+                        }
+                    }
+
+                    Review review = new Review(description, stars);
+                    seller.receiveReview(review);
+
                 }
+
                 case 2 -> {
-                    System.out.print("Vin code:");
-                    String vin = sc.next();
-
-                    System.out.print("Max dealership.car speed:");
-                    double maxCarSpeed = sc.nextDouble();
-
-                    System.out.print("Price:");
-                    double price = sc.nextDouble();
-
-                    System.out.print("fuel tank volume:");
-                    double volume = sc.nextDouble();
-
-                    FuelTank fuelTank1 = new FuelTank(volume, 30);
-                    Car car1 = new Car(vin, maxCarSpeed, price, fuelTank1);
-                    admin.addCar(car1);
+                    System.out.println(dealership.getBankAccount());
                 }
                 case 3 -> {
-                    System.out.print("Vin code:");
-                    String vin = sc.next();
-
-                    admin.removeCar(vin);
+                    System.out.println(seller.reviews);
                 }
                 default -> flag = false;
             }
         }
     }
 }
+
+/*
+dealers : reviews,
+random chance for buying car for users
+statistics
+ */

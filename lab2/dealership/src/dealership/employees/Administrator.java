@@ -39,6 +39,9 @@ public class Administrator extends EmployeeImpl {
 
     public void removeCar(String vin) {
         var car = this.dealership.findCar(vin);
+        if (car.isEmpty()) {
+            System.out.println("No car with such vin");
+        }
         car.ifPresent(this.dealership::removeCar);
 
     }

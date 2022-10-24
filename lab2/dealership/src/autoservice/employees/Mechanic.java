@@ -1,7 +1,9 @@
 package autoservice.employees;
 
+import common.employee.Employee;
 import common.employee.EmployeeImpl;
 import dealership.car.Car;
+import dealership.car.CarStatus;
 
 public class Mechanic extends EmployeeImpl {
 
@@ -22,5 +24,13 @@ public class Mechanic extends EmployeeImpl {
 
     public void setCurrentCar(Car currentCar) {
         this.currentCar = currentCar;
+    }
+
+    public void repairCar(double time) {
+        double currentWorkedHours = this.getWorkedHours();
+        currentWorkedHours += time;
+        this.setWorkedHours(currentWorkedHours);
+
+        timer.schedule(Employee.wrap(() -> currentCar.setStatus(CarStatus.ACTIVE)), (long) time);
     }
 }

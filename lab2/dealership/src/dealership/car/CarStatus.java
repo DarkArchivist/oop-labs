@@ -5,4 +5,5 @@ public enum CarStatus {
     INACTIVE,
     SOLD,
     TEST_DRIVE,
+    SERVICE,
 }

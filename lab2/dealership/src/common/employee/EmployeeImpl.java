@@ -1,42 +1,17 @@
 package common.employee;
 
-import common.base.BaseEntity;
+import common.base.Person;
 
-public abstract class EmployeeImpl extends BaseEntity implements Employee {
-    protected String firstName;
-    protected String lastName;
-
-    protected int age;
-
+public abstract class EmployeeImpl extends Person implements Employee {
     private double workedHours;
     private double salaryRate;
 
     public EmployeeImpl(String firstName, String lastName, int age, double salaryRate) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        super(firstName, lastName, age);
         this.age = age;
         this.salaryRate = salaryRate;
     }
 
-    @Override
-    public String getFirstName() {
-        return this.firstName;
-    }
-
-    @Override
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    @Override
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    @Override
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 
     @Override
     public double getSalaryRate() {

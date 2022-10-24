@@ -4,13 +4,15 @@ import common.bank.BankAccount;
 import common.base.Building;
 import common.employee.EmployeeImpl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Autoservice extends Building {
     private final BankAccount bankAccount;
     private List<String> contact;
 
-    private List<EmployeeImpl> employees;
+    private List<EmployeeImpl> employees = new ArrayList<>();
 
     public Autoservice(String workingHours, String schedule, int breakHour, BankAccount bankAccount) {
         super(workingHours, schedule, breakHour);

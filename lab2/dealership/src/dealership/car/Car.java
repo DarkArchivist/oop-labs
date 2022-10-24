@@ -15,13 +15,21 @@ public class Car extends Vehicle {
         return vin;
     }
 
+    public CarStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CarStatus status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "Car{" +
+        return
                 "vin='" + vin + '\'' +
-                ", status=" + status +
-                ", price=" + price +
-                ", fuelTank=" + fuelTank +
+                ",\n status=" + status +
+                ",\n price=" + price +
+                ",\n fuelTank=" + fuelTank +
                 '}';
     }
 }

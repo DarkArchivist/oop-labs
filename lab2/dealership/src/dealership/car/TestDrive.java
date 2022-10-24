@@ -24,6 +24,12 @@ public class TestDrive extends BaseEntity {
         this.buyer = buyer;
         this.seller = seller;
         this.car = car;
+
+        this.car.setStatus(CarStatus.TEST_DRIVE);
+    }
+
+    public void finishTestDrive(TestDrive testDrive) {
+        testDrive.car.setStatus(CarStatus.ACTIVE);
     }
 
     public Date getDate() {

@@ -28,7 +28,7 @@ public class FuelTank extends BaseEntity {
 
     @Override
     public String toString() {
-        return "FuelTank{" +
+        return "{" +
                 "volume=" + volume +
                 ", level=" + level +
                 '}';

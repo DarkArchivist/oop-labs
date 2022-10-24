@@ -60,4 +60,11 @@ public class BankAccount {
     public String getBankAddress() {
         return bankAddress;
     }
+
+    @Override
+    public String toString() {
+        return "BankAccount{" +
+                "amount=" + amount +
+                '}';
+    }
 }

@@ -1,12 +1,14 @@
 package dealership.employees;
 
 import common.bank.BankAccount;
+import common.employee.Review;
 import dealership.car.Car;
 import dealership.car.TestDrive;
 import common.order.Order;
 import common.base.Person;
 
 import java.util.Date;
+import java.util.List;
 
 
 public class Buyer extends Person {
@@ -18,10 +20,17 @@ public class Buyer extends Person {
         this.bankAccount = bankAccount;
     }
 
-    public void testDrive(Car car, Seller seller, double duration, Date date) {
-        TestDrive testDrive = new TestDrive(date, duration, this, seller, car);
+    public TestDrive testDrive(Car car, Seller seller, double duration, Date date) {
+        return new TestDrive(date, duration, this, seller, car);
     }
 
+    public void finishTestDrive(TestDrive testDrive) {
+            testDrive.finishTestDrive(testDrive);
+    }
+
+    public void giveReview(Seller seller, Review review) {
+            seller.receiveReview(review);
+    }
 
     public Order getOrder() {
         return order;
