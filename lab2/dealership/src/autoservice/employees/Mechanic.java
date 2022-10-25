@@ -31,6 +31,9 @@ public class Mechanic extends EmployeeImpl {
         currentWorkedHours += time;
         this.setWorkedHours(currentWorkedHours);
 
-        timer.schedule(Employee.wrap(() -> currentCar.setStatus(CarStatus.ACTIVE)), (long) time);
+        timer.schedule(Employee.wrap(() -> {
+            currentCar.setStatus(CarStatus.ACTIVE);
+            currentCar = null;
+        }), (long) time);
     }
 }

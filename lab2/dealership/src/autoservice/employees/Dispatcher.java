@@ -9,7 +9,7 @@ public class Dispatcher extends EmployeeImpl {
     }
 
     public void assignCar(Car car, Mechanic mechanic) {
-        if (mechanic.getCurrentCar() == null) {
+        if (mechanic.getCurrentCar() != null) {
             throw new RuntimeException("Mechanic is busy with a car!");
         }
         mechanic.setCurrentCar(car);

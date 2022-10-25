@@ -40,6 +40,10 @@ public class Buyer extends Person {
         this.order = order;
     }
 
+    public void buyCar(Car car, BankAccount dealershipBankAccount) {
+        bankAccount.transfer(dealershipBankAccount, car.getPrice());
+    }
+
     @Override
     public String toString() {
         return "Buyer{" +

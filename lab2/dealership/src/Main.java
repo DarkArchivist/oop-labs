@@ -3,6 +3,7 @@ import autoservice.employees.Dispatcher;
 import autoservice.employees.Mechanic;
 import common.bank.BankAccount;
 import common.employee.Review;
+import common.order.Order;
 import dealership.car.Car;
 import dealership.car.CarStatus;
 import dealership.car.FuelTank;
@@ -55,7 +56,7 @@ public class Main {
         Seller seller = new Seller("Employee", "Seller", 20, 15, dealership);
 
         // customer
-        BankAccount buyerBankAccount = new BankAccount("Customer", 10000, 100000, "maib", "Pushkin");
+        BankAccount buyerBankAccount = new BankAccount("Customer", 1000000, 10000000, "maib", "Pushkin");
         Buyer buyer = new Buyer("Customer", "Buyer", 20, buyerBankAccount);
 
 
@@ -65,11 +66,17 @@ public class Main {
 
         while (flag) {
             System.out.println("1 - Customer tries to buy a car");
+            System.out.println("2 - Dealership bank");
+            System.out.println("3 - Sellers rating, reviews");
 
             int option = sc.nextInt();
 
             switch (option) {
                 case 1 -> {
+                    if (dealership.getCars().isEmpty()) {
+                        System.out.println("Dealership has no available cars");
+                        break;
+                    };
                     String description = "";
                     double stars;
                     Random rand = new Random();
@@ -85,9 +92,9 @@ public class Main {
                     if (unluckyEvent == 1) {
                         System.out.println("Car needs service, broke down during test drive!");
                         testCar.setStatus(CarStatus.SERVICE);
-
+                        System.out.println(mechanic.getCurrentCar());
                         dispatcher.assignCar(testCar, mechanic);
-
+// mechanic: time, price, experience : rating
                         int price = rand.nextInt(1000, 5000);
                         mechanic.repairCar(10);
                         if (price > 1000 && price < 2000) {
@@ -132,7 +139,7 @@ public class Main {
                             }
                             default -> {
                                 description = "I'd rather not talk";
-                                stars = 0;
+                                stars = 4;
                             }
                         }
 
@@ -152,18 +159,26 @@ public class Main {
                         case 7 -> {
                             description = "Made me wait a whole lot before actually talking business.";
                             stars = 7;
+                            buyer.buyCar(dealership.getCars().get(0), dealershipBankAccount);
+                            seller.sell(dealership.getCars().get(0));
                         }
                         case 8 -> {
                             description = "Overall pleasant experience.";
                             stars = 8;
+                            buyer.buyCar(dealership.getCars().get(0), dealershipBankAccount);
+                            seller.sell(dealership.getCars().get(0));
                         }
                         case 9 -> {
                             description = "Nice suggestions, could be a bit more understanding.";
                             stars = 9;
+                            seller.sell(dealership.getCars().get(0));
+                            buyer.buyCar(dealership.getCars().get(0), dealershipBankAccount);
                         }
                         default -> {
                             description = "Excellent experience, pleasure to work with such persons.";
                             stars = 10;
+                            buyer.buyCar(dealership.getCars().get(0), dealershipBankAccount);
+                            seller.sell(dealership.getCars().get(0));
                         }
                     }
 
@@ -177,6 +192,10 @@ public class Main {
                 }
                 case 3 -> {
                     System.out.println(seller.reviews);
+                    System.out.println(seller.getRating());
+                }
+                case 4 -> {
+
                 }
                 default -> flag = false;
             }
