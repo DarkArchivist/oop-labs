@@ -44,6 +44,10 @@ public class Buyer extends Person {
         bankAccount.transfer(dealershipBankAccount, car.getPrice());
     }
 
+    public BankAccount getBankAccount() {
+        return bankAccount;
+    }
+
     @Override
     public String toString() {
         return "Buyer{" +

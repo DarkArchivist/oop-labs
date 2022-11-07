@@ -11,4 +11,16 @@ public abstract class Person extends BaseEntity {
         this.lastName = lastName;
         this.age = age;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public int getAge() {
+        return age;
+    }
 }

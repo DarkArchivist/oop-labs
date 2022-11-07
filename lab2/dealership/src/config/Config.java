@@ -5,6 +5,7 @@ import autoservice.employees.Dispatcher;
 import autoservice.employees.Mechanic;
 
 import common.bank.BankAccount;
+import common.employee.EmployeeImpl;
 import common.employee.Review;
 
 import dealership.Dealership;
@@ -29,28 +30,33 @@ public class Config {
     private final Dealership dealership = new Dealership("8",
             "9-5",
             13,
-            generateBankAccount(0, 1000000, "Dealership"),
+            generateBankAccount(150000, 1000000, "Dealership"),
             new ArrayList<>(),
             new ArrayList<>());
 
 
-    public void init() {
-
-        Mechanic mechanic = new Mechanic("firstName", "lastName", 23, 10.5);
+    public void init() throws InterruptedException {
         Dispatcher dispatcher = new Dispatcher("firstName", "lastName", 20, 10);
         autoservice.hireEmployee(dispatcher);
-        autoservice.hireEmployee(mechanic);
 
-        // mock dealership.car
-        Car mockCar = generateCar();
+        // GENERATE mechanics
+        for (int i = 0; i < 5; i++) {
+            Mechanic mechanic = generateMechanic();
+            autoservice.hireEmployee(mechanic);
+        }
 
+        // GENERATE Cars
+        List<Car> cars = new ArrayList<>();
+        for (int i = 0; i < 25; i++) {
+            Car mockCar = generateCar();
+            cars.add(mockCar);
+        }
+        dealership.setCars(cars);
+
+        // admin
         Administrator admin = new Administrator("Cornel", "Nastas", 20, 20, dealership);
         // seller
         Seller seller = new Seller("Employee", "Seller", 20, 15, dealership);
-
-        // customer
-        Buyer buyer = generateCustomer();
-
 
         boolean flag = true;
         Scanner sc = new Scanner(System.in);
@@ -65,123 +71,204 @@ public class Config {
 
             switch (option) {
                 case 1 -> {
-                    if (dealership.getCars().isEmpty()) {
-                        System.out.println("Dealership has no available cars");
-                        break;
-                    }
-                    ;
-                    String description = "";
-                    double stars;
+                    while (true) {
+                        if (dealership.getCars().isEmpty()) {
+                            System.out.println("Dealership has no available cars");
+                            break;
+                        }
+                        int bonus = 0;
 
-                    System.out.println(dealership);
+                        String description = "";
+                        double stars;
 
-                    Car testCar = dealership.getCars().get(0);
-                    TestDrive testDrive = buyer.testDrive(testCar, seller, 10, new Date());
+                        // customer
+                        Buyer buyer = generateCustomer();
+                        System.out.printf("-------- Customer %s %s enters store --------%n", buyer.getFirstName(), buyer.getLastName());
 
-                    Constants.timer.schedule(Constants.wrap(() -> buyer.finishTestDrive(testDrive)), 10);
+                        // car
+                        Car testCar = dealership
+                                .getCars()
+                                .get(rand.nextInt(0, dealership.getCars().size() - 1));
 
-                    int unluckyEvent = rand.nextInt(10);
-                    if (unluckyEvent == 1) {
-                        System.out.println("Car needs service, broke down during test drive!");
-                        testCar.setStatus(CarStatus.SERVICE);
-                        System.out.println(mechanic.getCurrentCar());
-                        dispatcher.assignCar(testCar, mechanic);
-// mechanic: time, price, experience : rating
-                        int price = rand.nextInt(1000, 5000);
-                        mechanic.repairCar(10);
-                        if (price > 1000 && price < 2000) {
-                            System.out.println("Good mechanic !");
-                            dealership.getBankAccount().transfer(autoservice.getBankAccount(), price);
-                        } else if (price > 2000 && price < 3000) {
-                            System.out.println("Cheeky mechanic ?!");
-                            dealership.getBankAccount().transfer(autoservice.getBankAccount(), price);
-                        } else {
-                            System.out.println("(Dealership) How come ? Are you out of your mind ?");
-                            System.out.println("(Mechanic) Lets see again.");
-                            int newPrice = rand.nextInt(1000, 3000);
-                            if (newPrice > 1000 && newPrice < 2000) {
-                                System.out.println("Good mechanic !");
-                                dealership.getBankAccount().transfer(autoservice.getBankAccount(), price);
-                            } else if (newPrice > 2000 && newPrice < 3000) {
-                                System.out.println("Cheeky mechanic ?!");
-                                dealership.getBankAccount().transfer(autoservice.getBankAccount(), price);
-                            }
+                        System.out.printf("----- Customer chooses car %s%n -----", testCar);
+
+                        System.out.printf("----- Customer takes car for a test drive -----%n");
+
+                        TestDrive testDrive = buyer.testDrive(testCar, seller, 10, new Date());
+
+                        Constants.timer.schedule(Constants.wrap(() -> {
+                            buyer.finishTestDrive(testDrive);
+                            System.out.printf("----- Test drive finished -----%n%n%n");
+                        }), 4000);
+
+                        Thread.sleep(4000);
+
+                        // add bonus for positive roll
+                        bonus += 0.5;
+
+                        // checks for price range
+                        if (buyer.getBankAccount().getAmount() > testCar.getPrice() / 2) {
+                            bonus += 2;
                         }
 
-                        description = "He gave me a car with a defect, what could happen in the worst case scenario ???";
-                        stars = 1;
-                        seller.receiveReview(new Review(description, stars));
-                        break;
-                    }
+                        // roll the dice for an unlucky event
+                        int unluckyEvent = rand.nextInt(10);
 
-                    int satisfaction = rand.nextInt(10);
-                    if (satisfaction > 0 && satisfaction < 5) {
-                        switch (rand.nextInt(4)) {
-                            case 1 -> {
-                                description = "Terrible person";
-                                stars = 1;
+                        if (unluckyEvent == 1) {
+                            System.out.println("----- Car needs service, broke down during test drive! -----");
+                            testCar.setStatus(CarStatus.SERVICE);
+
+                            List<EmployeeImpl> mechanics = autoservice.getEmployees()
+                                    .stream()
+                                    .filter(employee -> employee.getClass().getName().equals("autoservice.employees.Mechanic"))
+                                    .toList();
+
+                            boolean res = false;
+                            Mechanic mech = null;
+
+                            for (EmployeeImpl mechanic : mechanics) {
+                                res = dispatcher.assignCar(testCar, (Mechanic) mechanic);
+                                if (res) {
+                                    System.out.printf("----- Car is being taken care of by %s %s-----%n%n",
+                                            mechanic.getFirstName(), mechanic.getLastName());
+                                    mech = (Mechanic) mechanic;
+                                    break;
+                                }
                             }
-                            case 2 -> {
-                                description = "Doesn't know what he is supposed to do";
-                                stars = 2;
+
+                            if (!res) {
+                                System.out.println("----- There are no available mechanics -------%n%n%n");
                             }
-                            case 3 -> {
-                                description = "He didn't adhere to my specifications";
-                                stars = 3;
+
+                            if (mech == null) {
+                                Thread.sleep(4000);
+                                continue;
+                            }
+
+                            int price = rand.nextInt(1000, 5000);
+                            mech.repairCar(10);
+                            if (price > 1000 && price < 2000) {
+                                System.out.println("Good mechanic !");
+                                dealership.getBankAccount().transfer(autoservice.getBankAccount(), price);
+                            } else if (price > 2000 && price < 3000) {
+                                System.out.println("Cheeky mechanic ?!");
+                                dealership.getBankAccount().transfer(autoservice.getBankAccount(), price);
+                            } else {
+                                System.out.println("(Dealership) How come ? Are you out of your mind ?");
+                                System.out.println("(Mechanic) Lets see again.");
+                                int newPrice = rand.nextInt(1000, 3000);
+                                if (newPrice > 1000 && newPrice < 2000) {
+                                    System.out.println("Good mechanic !");
+                                    dealership.getBankAccount().transfer(autoservice.getBankAccount(), price);
+                                } else if (newPrice > 2000 && newPrice < 3000) {
+                                    System.out.println("Cheeky mechanic ?!");
+                                    dealership.getBankAccount().transfer(autoservice.getBankAccount(), price);
+                                }
+                            }
+
+                            description = "He gave me a car with a defect, what could happen in the worst case scenario ???";
+                            stars = 1;
+                            seller.receiveReview(new Review(description, stars));
+                            continue;
+                        }
+
+                        int satisfaction = rand.nextInt(10) + bonus;
+                        if (satisfaction > 0 && satisfaction < 5) {
+                            switch (rand.nextInt(4)) {
+                                case 1 -> {
+                                    description = "Terrible person";
+                                    stars = 1;
+                                }
+                                case 2 -> {
+                                    description = "Doesn't know what he is supposed to do";
+                                    stars = 2;
+                                }
+                                case 3 -> {
+                                    description = "He didn't adhere to my specifications";
+                                    stars = 3;
+                                }
+                                default -> {
+                                    description = "I'd rather not talk";
+                                    stars = 4;
+                                }
+                            }
+
+                            Review review = new Review(description, stars);
+                            seller.receiveReview(review);
+                            break;
+                        }
+
+                        switch (rand.nextInt(4, 10) + bonus) {
+                            case 5 -> {
+                                description = "Could use some lessons.";
+                                System.out.printf("----- u1=%s -----%n", description);
+
+                                stars = 5;
+                            }
+                            case 6 -> {
+                                description = "I wish he'd listen more.";
+                                System.out.printf("----- u1=%s -----%n", description);
+
+                                stars = 6;
+                            }
+                            case 7 -> {
+                                description = "Made me wait a whole lot before actually talking business.";
+                                System.out.printf("----- u1=%s -----%n", description);
+                                stars = 7;
+
+                                if (buyer.getBankAccount().getAmount() > testCar.getPrice()) {
+                                    buyer.buyCar(dealership.getCars().get(0), dealership.getBankAccount());
+                                    seller.sell(dealership.getCars().get(0));
+                                }
+
+                            }
+                            case 8 -> {
+                                description = "Overall pleasant experience.";
+                                System.out.printf("----- u1=%s -----%n", description);
+                                stars = 8;
+
+                                if (buyer.getBankAccount().getAmount() > testCar.getPrice()) {
+                                    buyer.buyCar(dealership.getCars().get(0), dealership.getBankAccount());
+                                    seller.sell(dealership.getCars().get(0));
+                                }
+
+
+                            }
+                            case 9 -> {
+                                description = "Nice suggestions, could be a bit more understanding.";
+                                System.out.printf("----- %s -----%n", description);
+                                stars = 9;
+
+                                if (buyer.getBankAccount().getAmount() > testCar.getPrice()) {
+                                    seller.sell(dealership.getCars().get(0));
+                                    buyer.buyCar(dealership.getCars().get(0), dealership.getBankAccount());
+                                }
+
                             }
                             default -> {
-                                description = "I'd rather not talk";
-                                stars = 4;
+                                description = "Excellent experience, pleasure to work with such persons.";
+                                System.out.printf("----- u1=%s -----%n", description);
+                                stars = 10;
+
+                                if (buyer.getBankAccount().getAmount() > testCar.getPrice()) {
+                                    buyer.buyCar(dealership.getCars().get(0), dealership.getBankAccount());
+                                    seller.sell(dealership.getCars().get(0));
+                                }
                             }
                         }
 
                         Review review = new Review(description, stars);
                         seller.receiveReview(review);
-                        break;
-                    }
-                    switch (rand.nextInt(4, 10)) {
-                        case 5 -> {
-                            description = "Could use some lessons.";
-                            stars = 5;
-                        }
-                        case 6 -> {
-                            description = "I wish he'd listen more.";
-                            stars = 6;
-                        }
-                        case 7 -> {
-                            description = "Made me wait a whole lot before actually talking business.";
-                            stars = 7;
-                            buyer.buyCar(dealership.getCars().get(0), dealership.getBankAccount());
-                            seller.sell(dealership.getCars().get(0));
-                        }
-                        case 8 -> {
-                            description = "Overall pleasant experience.";
-                            stars = 8;
-                            buyer.buyCar(dealership.getCars().get(0), dealership.getBankAccount());
-                            seller.sell(dealership.getCars().get(0));
-                        }
-                        case 9 -> {
-                            description = "Nice suggestions, could be a bit more understanding.";
-                            stars = 9;
-                            seller.sell(dealership.getCars().get(0));
-                            buyer.buyCar(dealership.getCars().get(0), dealership.getBankAccount());
-                        }
-                        default -> {
-                            description = "Excellent experience, pleasure to work with such persons.";
-                            stars = 10;
-                            buyer.buyCar(dealership.getCars().get(0), dealership.getBankAccount());
-                            seller.sell(dealership.getCars().get(0));
-                        }
-                    }
+                        Thread.sleep(5000);
 
-                    Review review = new Review(description, stars);
-                    seller.receiveReview(review);
+                        System.out.println("Enter 10 to quit program, otherwise continue");
+                        int key = sc.nextInt();
+                        if (key == 10) break;
+                    }
 
                 }
 
-                case 2 -> {
-                    System.out.println(dealership.getBankAccount());
-                }
+                case 2 -> System.out.println(dealership.getBankAccount());
                 case 3 -> {
                     System.out.println(seller.reviews);
                     System.out.println(seller.getRating());

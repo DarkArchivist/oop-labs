@@ -1,5 +1,7 @@
 package config;
 
+import autoservice.Autoservice;
+import autoservice.employees.Mechanic;
 import common.bank.BankAccount;
 import dealership.car.Car;
 import dealership.car.FuelTank;
@@ -56,5 +58,17 @@ public final class Generator {
                 customerName[1],
                 age,
                 bankAccount);
+    }
+
+    public static Mechanic generateMechanic() {
+        int salaryRate = rand.nextInt(10, 15);
+        int age = rand.nextInt(18, 50);
+
+        String[] customerName = generateName();
+
+        return new Mechanic(customerName[0],
+                customerName[1],
+                age,
+                salaryRate);
     }
 }
