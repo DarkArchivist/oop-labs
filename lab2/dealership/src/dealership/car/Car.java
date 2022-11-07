@@ -4,7 +4,7 @@ import common.base.Vehicle;
 
 public class Car extends Vehicle {
     private final String vin;
-    public CarStatus status;
+    public CarStatus status = CarStatus.ACTIVE;
 
     public Car(String vin, double maxCarSpeed, double price, FuelTank fuelTank) {
         super(maxCarSpeed, price, fuelTank);

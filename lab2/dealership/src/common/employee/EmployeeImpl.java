@@ -1,6 +1,7 @@
 package common.employee;
 
 import common.base.Person;
+import config.Constants;
 
 public abstract class EmployeeImpl extends Person implements Employee {
     private double workedHours;
@@ -35,7 +36,7 @@ public abstract class EmployeeImpl extends Person implements Employee {
 
     @Override
     public void clockIn() {
-        timer.schedule(Employee.wrap(() -> this.setWorkedHours(this.workedHours += 1)), 60 * 60 * 1000);
+        Constants.timer.schedule(Constants.wrap(() -> this.setWorkedHours(this.workedHours += 1)), 60 * 60 * 1000);
     }
 
     @Override

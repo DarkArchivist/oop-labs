@@ -1,7 +1,9 @@
 package autoservice.employees;
 
-import common.employee.Employee;
 import common.employee.EmployeeImpl;
+
+import config.Constants;
+
 import dealership.car.Car;
 import dealership.car.CarStatus;
 
@@ -31,7 +33,7 @@ public class Mechanic extends EmployeeImpl {
         currentWorkedHours += time;
         this.setWorkedHours(currentWorkedHours);
 
-        timer.schedule(Employee.wrap(() -> {
+        Constants.timer.schedule(Constants.wrap(() -> {
             currentCar.setStatus(CarStatus.ACTIVE);
             currentCar = null;
         }), (long) time);
