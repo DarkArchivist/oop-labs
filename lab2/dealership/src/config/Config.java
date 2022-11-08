@@ -136,11 +136,9 @@ public class Config {
                                 }
                             }
 
-                            if (!res) {
-                                System.out.println("----- There are no available mechanics -------%n%n%n");
-                            }
-
                             if (mech == null) {
+                                System.out.println("----- There are no available mechanics -------%n%n%n");
+
                                 Thread.sleep(4000);
                                 continue;
                             }
@@ -167,7 +165,10 @@ public class Config {
                             }
 
                             description = "He gave me a car with a defect, what could happen in the worst case scenario ???";
+                            System.out.printf("----- u1=%s -----%n", description);
+
                             stars = 1;
+
                             seller.receiveReview(new Review(description, stars));
                             continue;
                         }
@@ -177,25 +178,33 @@ public class Config {
                             switch (rand.nextInt(4)) {
                                 case 1 -> {
                                     description = "Terrible person";
+                                    System.out.printf("----- u1=%s -----%n", description);
+
                                     stars = 1;
                                 }
                                 case 2 -> {
                                     description = "Doesn't know what he is supposed to do";
+                                    System.out.printf("----- u1=%s -----%n", description);
+
                                     stars = 2;
                                 }
                                 case 3 -> {
                                     description = "He didn't adhere to my specifications";
+                                    System.out.printf("----- u1=%s -----%n", description);
+
                                     stars = 3;
                                 }
                                 default -> {
                                     description = "I'd rather not talk";
+                                    System.out.printf("----- u1=%s -----%n", description);
+
                                     stars = 4;
                                 }
                             }
 
                             Review review = new Review(description, stars);
                             seller.receiveReview(review);
-                            break;
+                            continue;
                         }
 
                         switch (rand.nextInt(4, 10) + bonus) {
