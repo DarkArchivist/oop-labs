@@ -1,23 +1,18 @@
-package autoservice.employees;
+package autoservice.model;
 
 import common.employee.EmployeeImpl;
 
-import config.Constants;
+import util.Constants;
 
-import dealership.car.Car;
-import dealership.car.CarStatus;
+import dealership.model.Car;
+import dealership.model.CarStatus;
 
 public class Mechanic extends EmployeeImpl {
 
     private Car currentCar;
 
-    public Mechanic(String firstName, String lastName, int age, double salaryRate) {
-        super(firstName, lastName, age, salaryRate);
-    }
-
-    public Mechanic(String firstName, String lastName, int age, double salaryRate, Car currentCar) {
-        super(firstName, lastName, age, salaryRate);
-        this.currentCar = currentCar;
+    public Mechanic(String firstName, String lastName, int age) {
+        super(firstName, lastName, age);
     }
 
     public Car getCurrentCar() {

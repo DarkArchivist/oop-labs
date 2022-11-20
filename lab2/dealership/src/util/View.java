@@ -1,28 +1,26 @@
-package config;
+package util;
 
 import autoservice.Autoservice;
-import autoservice.employees.Dispatcher;
-import autoservice.employees.Mechanic;
+import autoservice.model.Dispatcher;
+import autoservice.model.Mechanic;
 
-import common.bank.BankAccount;
 import common.employee.EmployeeImpl;
 import common.employee.Review;
 
 import dealership.Dealership;
-import dealership.car.Car;
-import dealership.car.CarStatus;
-import dealership.car.TestDrive;
-import dealership.employees.Administrator;
-import dealership.employees.Buyer;
-import dealership.employees.Seller;
+import dealership.model.Car;
+import dealership.model.CarStatus;
+import dealership.model.TestDrive;
+import dealership.model.Buyer;
+import dealership.model.Seller;
 
 
-import static config.Constants.rand;
-import static config.Generator.*;
+import static util.Constants.rand;
+import static util.Generator.*;
 
 import java.util.*;
 
-public class Config {
+public class View {
     private final Autoservice autoservice = new Autoservice("8",
             "9-5",
             13,
@@ -36,7 +34,7 @@ public class Config {
 
 
     public void init() throws InterruptedException {
-        Dispatcher dispatcher = new Dispatcher("firstName", "lastName", 20, 10);
+        Dispatcher dispatcher = new Dispatcher("firstName", "lastName", 20);
         autoservice.hireEmployee(dispatcher);
 
         // GENERATE mechanics
@@ -53,10 +51,8 @@ public class Config {
         }
         dealership.setCars(cars);
 
-        // admin
-        Administrator admin = new Administrator("Cornel", "Nastas", 20, 20, dealership);
         // seller
-        Seller seller = new Seller("Employee", "Seller", 20, 15, dealership);
+        Seller seller = new Seller("Employee", "Seller", 20, dealership);
 
         boolean flag = true;
         Scanner sc = new Scanner(System.in);
@@ -78,7 +74,7 @@ public class Config {
                         }
                         int bonus = 0;
 
-                        String description = "";
+                        String description;
                         double stars;
 
                         // customer
@@ -123,7 +119,7 @@ public class Config {
                                     .filter(employee -> employee.getClass().getName().equals("autoservice.employees.Mechanic"))
                                     .toList();
 
-                            boolean res = false;
+                            boolean res;
                             Mechanic mech = null;
 
                             for (EmployeeImpl mechanic : mechanics) {

@@ -1,10 +1,10 @@
-import config.Config;
+import util.View;
 
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-        Config config = new Config();
-        config.init();
+        View view = new View();
+        view.init();
     }
 }
 

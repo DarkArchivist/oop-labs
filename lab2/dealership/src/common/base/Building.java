@@ -1,6 +1,6 @@
 package common.base;
 
-public abstract class Building extends BaseEntity {
+public abstract class Building {
     protected String workingHours;
     protected String schedule;
     protected int breakHour;

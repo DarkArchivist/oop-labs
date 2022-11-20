@@ -1,14 +1,11 @@
-package dealership.employees;
+package dealership.model;
 
 import common.bank.BankAccount;
 import common.employee.Review;
-import dealership.car.Car;
-import dealership.car.TestDrive;
 import common.order.Order;
 import common.base.Person;
 
 import java.util.Date;
-import java.util.List;
 
 
 public class Buyer extends Person {

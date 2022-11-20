@@ -1,9 +1,9 @@
-package dealership.employees;
+package dealership.model;
 
 import common.employee.Review;
-import dealership.car.CarStatus;
+import dealership.model.CarStatus;
 import common.employee.EmployeeImpl;
-import dealership.car.Car;
+import dealership.model.Car;
 import dealership.Dealership;
 
 import java.util.ArrayList;
@@ -15,8 +15,8 @@ public class Seller extends EmployeeImpl {
 
     public List<Review> reviews = new ArrayList<>();
 
-    public Seller(String firstName, String lastName, int age, double salaryRate, Dealership dealership) {
-        super(firstName, lastName, age, salaryRate);
+    public Seller(String firstName, String lastName, int age, Dealership dealership) {
+        super(firstName, lastName, age);
         this.dealership = dealership;
     }
 

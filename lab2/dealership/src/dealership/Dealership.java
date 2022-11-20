@@ -2,7 +2,7 @@ package dealership;
 
 import common.bank.BankAccount;
 import common.base.Building;
-import dealership.car.Car;
+import dealership.model.Car;
 
 import java.util.List;
 import java.util.Objects;

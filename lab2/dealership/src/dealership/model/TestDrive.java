@@ -1,12 +1,8 @@
-package dealership.car;
-
-import common.base.BaseEntity;
-import dealership.employees.Buyer;
-import dealership.employees.Seller;
+package dealership.model;
 
 import java.util.Date;
 
-public class TestDrive extends BaseEntity {
+public class TestDrive {
 
     private Date date;
 

@@ -1,9 +1,8 @@
 package common.order;
 
-import common.base.BaseEntity;
-import dealership.car.Car;
+import dealership.model.Car;
 
-public class Order extends BaseEntity {
+public class Order {
     protected final Car car;
 
     public Order(Car car) {

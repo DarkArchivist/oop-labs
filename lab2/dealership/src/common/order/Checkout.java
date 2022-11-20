@@ -1,9 +1,9 @@
 package common.order;
 
 import common.bank.BankAccount;
-import dealership.car.Car;
+import dealership.model.Car;
 import dealership.Dealership;
-import dealership.car.CarStatus;
+import dealership.model.CarStatus;
 
 public class Checkout extends Order {
 

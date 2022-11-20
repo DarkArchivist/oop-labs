@@ -1,6 +1,6 @@
 package common.base;
 
-public abstract class Person extends BaseEntity {
+public abstract class Person {
     protected final String firstName;
     protected final String lastName;
 
@@ -20,7 +20,4 @@ public abstract class Person extends BaseEntity {
         return lastName;
     }
 
-    public int getAge() {
-        return age;
-    }
 }

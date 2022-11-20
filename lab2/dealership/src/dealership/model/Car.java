@@ -1,4 +1,4 @@
-package dealership.car;
+package dealership.model;
 
 import common.base.Vehicle;
 

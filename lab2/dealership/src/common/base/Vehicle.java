@@ -1,8 +1,8 @@
 package common.base;
 
-import dealership.car.FuelTank;
+import dealership.model.FuelTank;
 
-public abstract class Vehicle extends BaseEntity {
+public abstract class Vehicle {
     protected final double maxSpeed;
     protected double currentSpeed;
     protected double price;
@@ -15,57 +15,10 @@ public abstract class Vehicle extends BaseEntity {
         this.fuelTank = fuelTank;
     }
 
-    public void start() {
-        this.currentSpeed = 1;
-    }
-
-    public void stop() {
-        this.currentSpeed = 0;
-    }
-
-    public void accelerate(double speed, double distance) {
-
-    }
-
-    public void decelerate(double speed, double distance) {
-
-    }
-
-    public double getMaxSpeed() {
-        return maxSpeed;
-    }
-
-    public double getCurrentSpeed() {
-        return currentSpeed;
-    }
-
-    public void setCurrentSpeed(double currentSpeed) {
-        this.currentSpeed = currentSpeed;
-    }
-
     public double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public double getOdoMeter() {
-        return odoMeter;
-    }
-
-    public void setOdoMeter(double odoMeter) {
-        this.odoMeter = odoMeter;
-    }
-
-    public FuelTank getFuelTank() {
-        return fuelTank;
-    }
-
-    public void setFuelTank(FuelTank fuelTank) {
-        this.fuelTank = fuelTank;
-    }
 
     @Override
     public String toString() {

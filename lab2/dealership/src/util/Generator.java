@@ -1,15 +1,14 @@
-package config;
+package util;
 
-import autoservice.Autoservice;
-import autoservice.employees.Mechanic;
+import autoservice.model.Mechanic;
 import common.bank.BankAccount;
-import dealership.car.Car;
-import dealership.car.FuelTank;
-import dealership.employees.Buyer;
+import dealership.model.Car;
+import dealership.model.FuelTank;
+import dealership.model.Buyer;
 
 import java.util.Arrays;
 
-import static config.Constants.*;
+import static util.Constants.*;
 
 public final class Generator {
 
@@ -61,14 +60,12 @@ public final class Generator {
     }
 
     public static Mechanic generateMechanic() {
-        int salaryRate = rand.nextInt(10, 15);
         int age = rand.nextInt(18, 50);
 
         String[] customerName = generateName();
 
         return new Mechanic(customerName[0],
                 customerName[1],
-                age,
-                salaryRate);
+                age);
     }
 }

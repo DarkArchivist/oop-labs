@@ -1,4 +1,4 @@
-package dealership.car;
+package dealership.model;
 
 public enum CarStatus {
     ACTIVE,

@@ -1,11 +1,11 @@
-package autoservice.employees;
+package autoservice.model;
 
 import common.employee.EmployeeImpl;
-import dealership.car.Car;
+import dealership.model.Car;
 
 public class Dispatcher extends EmployeeImpl {
-    public Dispatcher(String firstName, String lastName, int age, double salaryRate) {
-        super(firstName, lastName, age, salaryRate);
+    public Dispatcher(String firstName, String lastName, int age) {
+        super(firstName, lastName, age);
     }
 
     public boolean assignCar(Car car, Mechanic mechanic) {

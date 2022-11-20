@@ -1,4 +1,4 @@
-package config;
+package util;
 
 import java.util.Random;
 import java.util.Timer;
