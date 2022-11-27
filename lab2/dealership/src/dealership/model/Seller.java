@@ -1,10 +1,7 @@
 package dealership.model;
 
 import common.employee.Review;
-import dealership.model.CarStatus;
 import common.employee.EmployeeImpl;
-import dealership.model.Car;
-import dealership.Dealership;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package autoservice;
+package autoservice.model;
 
 import common.bank.BankAccount;
 import common.base.Building;

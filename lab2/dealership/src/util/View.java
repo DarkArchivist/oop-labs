@@ -1,13 +1,15 @@
 package util;
 
-import autoservice.Autoservice;
+import autoservice.controller.AutoserviceController;
+import autoservice.model.Autoservice;
 import autoservice.model.Dispatcher;
 import autoservice.model.Mechanic;
 
 import common.employee.EmployeeImpl;
 import common.employee.Review;
 
-import dealership.Dealership;
+import dealership.controller.DealershipController;
+import dealership.model.Dealership;
 import dealership.model.Car;
 import dealership.model.CarStatus;
 import dealership.model.TestDrive;
@@ -21,26 +23,22 @@ import static util.Generator.*;
 import java.util.*;
 
 public class View {
-    private final Autoservice autoservice = new Autoservice("8",
-            "9-5",
-            13,
-            generateBankAccount(0, 100000, "Autoservice"));
-    private final Dealership dealership = new Dealership("8",
-            "9-5",
-            13,
-            generateBankAccount(150000, 1000000, "Dealership"),
-            new ArrayList<>(),
-            new ArrayList<>());
+    private final DealershipController dealershipController;
+    private final AutoserviceController autoserviceController;
 
+    public View(Dealership dealership, Autoservice autoservice) {
+        this.dealershipController = new DealershipController(dealership);
+        this.autoserviceController = new AutoserviceController(autoservice);
+    }
 
     public void init() throws InterruptedException {
         Dispatcher dispatcher = new Dispatcher("firstName", "lastName", 20);
-        autoservice.hireEmployee(dispatcher);
+        autoserviceController.hireEmployee(dispatcher);
 
         // GENERATE mechanics
         for (int i = 0; i < 5; i++) {
             Mechanic mechanic = generateMechanic();
-            autoservice.hireEmployee(mechanic);
+            autoserviceController.hireEmployee(mechanic);
         }
 
         // GENERATE Cars
@@ -49,10 +47,10 @@ public class View {
             Car mockCar = generateCar();
             cars.add(mockCar);
         }
-        dealership.setCars(cars);
+        dealershipController.setCars(cars);
 
         // seller
-        Seller seller = new Seller("Employee", "Seller", 20, dealership);
+        Seller seller = new Seller("Employee", "Seller", 20, this.dealershipController.getDealership());
 
         boolean flag = true;
         Scanner sc = new Scanner(System.in);
@@ -68,7 +66,7 @@ public class View {
             switch (option) {
                 case 1 -> {
                     while (true) {
-                        if (dealership.getCars().isEmpty()) {
+                        if (dealershipController.getCars().isEmpty()) {
                             System.out.println("Dealership has no available cars");
                             break;
                         }
@@ -82,9 +80,9 @@ public class View {
                         System.out.printf("-------- Customer %s %s enters store --------%n", buyer.getFirstName(), buyer.getLastName());
 
                         // car
-                        Car testCar = dealership
+                        Car testCar = dealershipController
                                 .getCars()
-                                .get(rand.nextInt(0, dealership.getCars().size() - 1));
+                                .get(rand.nextInt(0, dealershipController.getCars().size() - 1));
 
                         System.out.printf("----- Customer chooses car %s%n -----", testCar);
 
@@ -114,7 +112,7 @@ public class View {
                             System.out.println("----- Car needs service, broke down during test drive! -----");
                             testCar.setStatus(CarStatus.SERVICE);
 
-                            List<EmployeeImpl> mechanics = autoservice.getEmployees()
+                            List<EmployeeImpl> mechanics = this.autoserviceController.getEmployees()
                                     .stream()
                                     .filter(employee -> employee.getClass().getName().equals("autoservice.employees.Mechanic"))
                                     .toList();
@@ -143,20 +141,20 @@ public class View {
                             mech.repairCar(10);
                             if (price > 1000 && price < 2000) {
                                 System.out.println("Good mechanic !");
-                                dealership.getBankAccount().transfer(autoservice.getBankAccount(), price);
+                                dealershipController.getBankAccount().transfer(this.autoserviceController.getBankAccount(), price);
                             } else if (price > 2000 && price < 3000) {
                                 System.out.println("Cheeky mechanic ?!");
-                                dealership.getBankAccount().transfer(autoservice.getBankAccount(), price);
+                                dealershipController.getBankAccount().transfer(this.autoserviceController.getBankAccount(), price);
                             } else {
                                 System.out.println("(Dealership) How come ? Are you out of your mind ?");
                                 System.out.println("(Mechanic) Lets see again.");
                                 int newPrice = rand.nextInt(1000, 3000);
                                 if (newPrice > 1000 && newPrice < 2000) {
                                     System.out.println("Good mechanic !");
-                                    dealership.getBankAccount().transfer(autoservice.getBankAccount(), price);
+                                    dealershipController.getBankAccount().transfer(this.autoserviceController.getBankAccount(), price);
                                 } else if (newPrice > 2000 && newPrice < 3000) {
                                     System.out.println("Cheeky mechanic ?!");
-                                    dealership.getBankAccount().transfer(autoservice.getBankAccount(), price);
+                                    dealershipController.getBankAccount().transfer(this.autoserviceController.getBankAccount(), price);
                                 }
                             }
 
@@ -222,8 +220,8 @@ public class View {
                                 stars = 7;
 
                                 if (buyer.getBankAccount().getAmount() > testCar.getPrice()) {
-                                    buyer.buyCar(dealership.getCars().get(0), dealership.getBankAccount());
-                                    seller.sell(dealership.getCars().get(0));
+                                    buyer.buyCar(dealershipController.getCars().get(0), dealershipController.getBankAccount());
+                                    seller.sell(dealershipController.getCars().get(0));
                                 }
 
                             }
@@ -233,8 +231,8 @@ public class View {
                                 stars = 8;
 
                                 if (buyer.getBankAccount().getAmount() > testCar.getPrice()) {
-                                    buyer.buyCar(dealership.getCars().get(0), dealership.getBankAccount());
-                                    seller.sell(dealership.getCars().get(0));
+                                    buyer.buyCar(dealershipController.getCars().get(0), dealershipController.getBankAccount());
+                                    seller.sell(dealershipController.getCars().get(0));
                                 }
 
 
@@ -245,8 +243,8 @@ public class View {
                                 stars = 9;
 
                                 if (buyer.getBankAccount().getAmount() > testCar.getPrice()) {
-                                    seller.sell(dealership.getCars().get(0));
-                                    buyer.buyCar(dealership.getCars().get(0), dealership.getBankAccount());
+                                    seller.sell(dealershipController.getCars().get(0));
+                                    buyer.buyCar(dealershipController.getCars().get(0), dealershipController.getBankAccount());
                                 }
 
                             }
@@ -256,8 +254,8 @@ public class View {
                                 stars = 10;
 
                                 if (buyer.getBankAccount().getAmount() > testCar.getPrice()) {
-                                    buyer.buyCar(dealership.getCars().get(0), dealership.getBankAccount());
-                                    seller.sell(dealership.getCars().get(0));
+                                    buyer.buyCar(dealershipController.getCars().get(0), dealershipController.getBankAccount());
+                                    seller.sell(dealershipController.getCars().get(0));
                                 }
                             }
                         }
@@ -273,7 +271,7 @@ public class View {
 
                 }
 
-                case 2 -> System.out.println(dealership.getBankAccount());
+                case 2 -> System.out.println(dealershipController.getBankAccount());
                 case 3 -> {
                     System.out.println(seller.reviews);
                     System.out.println(seller.getRating());

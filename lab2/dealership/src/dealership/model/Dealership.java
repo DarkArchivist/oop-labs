@@ -1,4 +1,4 @@
-package dealership;
+package dealership.model;
 
 import common.bank.BankAccount;
 import common.base.Building;
@@ -21,14 +21,6 @@ public class Dealership extends Building {
         this.bankAccount = bankAccount;
         this.contact = contact;
         this.cars = cars;
-    }
-
-    public Optional<Car> findCar(String vin) {
-        return cars
-                .stream()
-                .parallel()
-                .filter(car -> Objects.equals(car.getVin(), vin))
-                .findFirst();
     }
 
     public void addCar(Car car) {

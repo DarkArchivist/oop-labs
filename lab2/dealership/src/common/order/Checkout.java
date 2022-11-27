@@ -2,7 +2,7 @@ package common.order;
 
 import common.bank.BankAccount;
 import dealership.model.Car;
-import dealership.Dealership;
+import dealership.model.Dealership;
 import dealership.model.CarStatus;
 
 public class Checkout extends Order {
